@@ -3,7 +3,7 @@ import 'package:citizenwallet/utils/qr.dart';
 
 (String?, String?, String?) deepLinkParamsFromUri(String uri) {
   final parsedUri = Uri.parse(uri);
-  
+
   final fragment = parsedUri.fragment;
   String queryString = fragment;
   if (fragment.startsWith('/?')) {
@@ -11,7 +11,7 @@ import 'package:citizenwallet/utils/qr.dart';
   }
 
   Uri uriData = Uri.parse('temp://temp?$queryString');
-  
+
   if (fragment.isEmpty || uriData.queryParameters.isEmpty) {
     uriData = parsedUri;
   }
@@ -46,7 +46,7 @@ import 'package:citizenwallet/utils/qr.dart';
 
 (String?, String?) deepLinkContentFromUri(String uri) {
   final parsedUri = Uri.parse(uri);
-  
+
   final fragment = parsedUri.fragment;
   String queryString = fragment;
   if (fragment.startsWith('/?')) {
@@ -54,7 +54,7 @@ import 'package:citizenwallet/utils/qr.dart';
   }
 
   Uri uriData = Uri.parse('temp://temp?$queryString');
-  
+
   if (fragment.isEmpty || uriData.queryParameters.isEmpty) {
     uriData = parsedUri;
   }
@@ -64,7 +64,7 @@ import 'package:citizenwallet/utils/qr.dart';
 
 String? aliasFromUri(String uri) {
   final parsedUri = Uri.parse(uri);
-  
+
   final fragment = parsedUri.fragment;
   String queryString = fragment;
   if (fragment.startsWith('/?')) {
@@ -72,7 +72,7 @@ String? aliasFromUri(String uri) {
   }
 
   Uri uriData = Uri.parse('temp://temp?$queryString');
-  
+
   if (fragment.isEmpty || uriData.queryParameters.isEmpty) {
     uriData = parsedUri;
   }
@@ -152,22 +152,11 @@ String? aliasFromSendUri(String uri) {
     return null;
   }
 
-  final fragment = Uri.parse(uri).fragment;
-
-  // Handle the case where fragment starts with /?
-  String queryString = fragment;
-  if (fragment.startsWith('/?')) {
-    queryString = fragment.substring(2);
-  }
-
-  final uriData = Uri.parse('temp://temp?$queryString');
-
   switch (format) {
     case QRFormat.sendtoUrl:
-      final parsedData = parseSendtoUrl(uriData.toString());
+      final parsedData = parseSendtoUrl(uri);
       return parsedData.alias;
     case QRFormat.sendtoUrlWithEIP681:
-      // For sendtoUrlWithEIP681, we need to parse the original URI, not the dummy one
       final parsedData = parseSendtoUrlWithEIP681(uri);
       return parsedData.alias;
     default:
