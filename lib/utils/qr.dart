@@ -123,25 +123,50 @@ ParsedQRData parseSendtoUrlWithEIP681(String raw) {
 // parse the sendto url
 // raw is the URL from the QR code, eg. https://example.com/?sendto=:username@:communitySlug&amount=100&description=Hello
 ParsedQRData parseSendtoUrl(String raw) {
-  final cleanRaw = raw.replaceFirst('/#/', '/');
-  final decodedRaw = Uri.decodeComponent(cleanRaw);
+  final parsedUri = Uri.parse(raw);
 
-  final receiveUrl = Uri.parse(decodedRaw);
+  // Extract query parameters from fragment if present (like /#/?sendto=...)
+  final fragment = parsedUri.fragment;
+  String queryString = fragment;
+  if (fragment.startsWith('/?')) {
+    queryString = fragment.substring(2);
+  }
 
-  final sendToParam = receiveUrl.queryParameters['sendto'];
-  final amountParam = receiveUrl.queryParameters['amount'];
-  final descriptionParam = receiveUrl.queryParameters['description'];
+  // Handle malformed query strings (convert ? to & after the first one)
+  // e.g., "alias=...?sendto=..." becomes "alias=...&sendto=..."
+  if (queryString.contains('?')) {
+    final firstQuestionMark = queryString.indexOf('?');
+    queryString = queryString.substring(0, firstQuestionMark) +
+        '&' +
+        queryString.substring(firstQuestionMark + 1).replaceAll('?', '&');
+  }
 
-  final tipToParam = receiveUrl.queryParameters['tipTo'];
-  final tipAmountParam = receiveUrl.queryParameters['tipAmount'];
-  final tipDescriptionParam = receiveUrl.queryParameters['tipDescription'];
+  Uri uriData = Uri.parse('temp://temp?$queryString');
+
+  // If fragment is empty or has no query params, use the main URI
+  if (fragment.isEmpty || uriData.queryParameters.isEmpty) {
+    uriData = parsedUri;
+  }
+
+  final sendToParam = uriData.queryParameters['sendto'];
+  final amountParam = uriData.queryParameters['amount'];
+  final descriptionParam = uriData.queryParameters['description'];
+
+  final tipToParam = uriData.queryParameters['tipTo'];
+  final tipAmountParam = uriData.queryParameters['tipAmount'];
+  final tipDescriptionParam = uriData.queryParameters['tipDescription'];
 
   if (sendToParam == null) {
     return ParsedQRData(address: '');
   }
 
   final address = sendToParam.split('@').first;
-  final alias = sendToParam.split('@').last;
+  // Extract alias from sendto parameter (after @) as fallback
+  final aliasFromSendto = sendToParam.contains('@') 
+      ? sendToParam.split('@').last 
+      : null;
+  // Use explicit alias parameter if present, otherwise fallback to alias from sendto
+  final alias = uriData.queryParameters['alias'] ?? aliasFromSendto;
 
   final tip = tipToParam != null
       ? SendDestination(
