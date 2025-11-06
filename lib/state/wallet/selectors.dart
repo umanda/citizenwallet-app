@@ -87,6 +87,67 @@ ActionButton? selectActionButtonToShow(WalletState state) {
   );
 
   if (moreButton != null) {
+    // Count items that would be in the More menu
+    int moreMenuItemsCount = 0;
+    
+    // Count vouchers (always 1 if present)
+    final hasVouchers = state.walletActions.any(
+      (action) => action.buttonType == ActionButtonType.vouchers,
+    );
+    if (hasVouchers) moreMenuItemsCount++;
+    
+    // Count minter (1 if present)
+    final hasMinter = state.walletActions.any(
+      (action) => action.buttonType == ActionButtonType.minter,
+    );
+    if (hasMinter) moreMenuItemsCount++;
+    
+    // Count plugins (excluding featured plugin displayed as button)
+    final plugins = selectVisiblePlugins(state);
+    final featuredPlugins = selectFeaturedPlugins(state);
+    final displayedFeaturedPlugin = featuredPlugins.isNotEmpty ? featuredPlugins.first : null;
+    
+    final pluginsToShow = displayedFeaturedPlugin != null
+        ? plugins.where((plugin) => plugin.url != displayedFeaturedPlugin.url).toList()
+        : plugins;
+    
+    // If plugins action exists, count the plugins that would be shown
+    final hasPlugins = state.walletActions.any(
+      (action) => action.buttonType == ActionButtonType.plugins,
+    );
+    if (hasPlugins && pluginsToShow.isNotEmpty) {
+      moreMenuItemsCount += pluginsToShow.length;
+    }
+    
+    // If More menu would be empty, don't show More button
+    if (moreMenuItemsCount == 0) {
+      // Return the last action (excluding More button)
+      return state.walletActions
+          .where((action) => action.buttonType != ActionButtonType.more)
+          .lastOrNull;
+    }
+    
+    // If More menu would only have 1 item, show that item directly instead
+    if (moreMenuItemsCount == 1) {
+      // Return the single action that would be in More menu
+      if (hasVouchers) {
+        return state.walletActions.firstWhere(
+          (action) => action.buttonType == ActionButtonType.vouchers,
+        );
+      }
+      if (hasMinter) {
+        return state.walletActions.firstWhere(
+          (action) => action.buttonType == ActionButtonType.minter,
+        );
+      }
+      if (hasPlugins && pluginsToShow.isNotEmpty) {
+        return state.walletActions.firstWhere(
+          (action) => action.buttonType == ActionButtonType.plugins,
+        );
+      }
+    }
+    
+    // Otherwise, show More button
     return moreButton;
   }
 
@@ -95,3 +156,8 @@ ActionButton? selectActionButtonToShow(WalletState state) {
 
 List<PluginConfig> selectVisiblePlugins(WalletState state) =>
     (state.wallet?.plugins ?? []).where((plugin) => !plugin.hidden).toList();
+
+List<PluginConfig> selectFeaturedPlugins(WalletState state) =>
+    (state.wallet?.plugins ?? [])
+        .where((plugin) => !plugin.hidden && plugin.featured)
+        .toList();
