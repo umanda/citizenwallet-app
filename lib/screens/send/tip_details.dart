@@ -297,6 +297,7 @@ class _TipDetailsScreenState extends State<TipDetailsScreen> {
         });
 
     if (sent == true) {
+      walletLogic.clearInProgressTransaction();
       walletLogic.clearInputControllers();
       walletLogic.resetInputErrorState();
       widget.profilesLogic.clearSearch();
