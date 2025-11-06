@@ -4,7 +4,6 @@ import 'package:citizenwallet/state/wallet/state.dart';
 import 'package:citizenwallet/theme/provider.dart';
 import 'package:citizenwallet/widgets/coin_logo.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:citizenwallet/l10n/app_localizations.dart';
@@ -26,7 +25,17 @@ class MoreActionsSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final plugins = context.select(selectVisiblePlugins);
+    final featuredPlugins = context.select(selectFeaturedPlugins);
     final actions = context.select((WalletState state) => state.walletActions);
+    
+    // Get the featured plugin that's displayed as a button (first featured plugin)
+    final displayedFeaturedPlugin = featuredPlugins.isNotEmpty ? featuredPlugins.first : null;
+    
+    // Filter out the displayed featured plugin from the plugins list
+    // Compare by URL since it's unique for each plugin
+    final pluginsToShow = displayedFeaturedPlugin != null
+        ? plugins.where((plugin) => plugin.url != displayedFeaturedPlugin.url).toList()
+        : plugins;
 
     final navigator = GoRouter.of(context);
 
@@ -82,7 +91,7 @@ class MoreActionsSheet extends StatelessWidget {
                     )
                   ];
                 case ActionButtonType.plugins:
-                  return plugins.map((plugin) {
+                  return pluginsToShow.map((plugin) {
                     return _buildSheetItem(
                       context,
                       plugin.name,

@@ -14,6 +14,7 @@ class WalletActionButton extends StatelessWidget {
   final bool loading;
   final bool disabled;
   final void Function()? onPressed;
+  final int? buttonCount; // Number of buttons to help calculate available space
 
   const WalletActionButton({
     super.key,
@@ -28,13 +29,19 @@ class WalletActionButton extends StatelessWidget {
     this.alt = false,
     this.loading = false,
     this.disabled = false,
+    this.buttonCount,
     required this.onPressed,
   });
 
   @override
   Widget build(BuildContext context) {
     final small = (1 - shrink) < 0.90;
-    final buttonWidth = small ? 110.0 : buttonSize;
+    // Adjust button width based on button count when in small state
+    // With 4 buttons, each button needs to be narrower
+    final baseButtonWidth = small ? 110.0 : buttonSize;
+    final buttonWidth = (buttonCount != null && buttonCount! > 3 && small)
+        ? (baseButtonWidth * 0.75).clamp(70.0, 90.0)
+        : baseButtonWidth;
 
     final color = alt
         ? Theme.of(context).colors.surfacePrimary.resolveFrom(context)
@@ -85,22 +92,26 @@ class WalletActionButton extends StatelessWidget {
                     ? Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text(
-                            text,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: color,
-                              fontSize: 14,
+                          Flexible(
+                            child: Text(
+                              text,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: color,
+                                fontSize: (buttonCount != null && buttonCount! > 3) ? 12.0 : 14.0,
+                              ),
                             ),
                           ),
-                          const SizedBox(width: 10),
+                          SizedBox(width: (buttonCount != null && buttonCount! > 3) ? 6.0 : 10.0),
                           customIcon ??
                               Icon(
                                 icon,
-                                size: 18,
+                                size: (buttonCount != null && buttonCount! > 3) ? 16.0 : 18.0,
                                 color: color,
                               ),
                         ],

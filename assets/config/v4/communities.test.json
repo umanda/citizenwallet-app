@@ -159,7 +159,8 @@
         "icon": "https://assets.citizenwallet.xyz/wallet-config/_images/wallet.pay.brussels.png",
         "url": "https://checkout.pay.brussels/topup",
         "action": "topup",
-        "signature": true
+        "signature": true,
+        "featured": true
       }
     ],
     "config_location": "https://wallet.pay.brussels/config/community.json",
@@ -306,6 +307,14 @@
     },
     "plugins": [
       {
+        "name": "Map",
+        "icon": "https://assets.citizenwallet.xyz/wallet-config/_images/sfluv.svg",
+        "url": "https://app.sfluv.org/map",
+        "launch_mode": "webview",
+        "featured": true,
+        "signature": true
+      },
+      {
         "name": "About",
         "icon": "https://assets.citizenwallet.xyz/wallet-config/_images/sfluv.svg",
         "url": "https://app.sfluv.org",
@@ -328,6 +337,7 @@
       "theme": {
         "primary": "#eb6c6c"
       },
+      "hidden": true,
       "profile": {
         "address": "0x05e2Fb34b4548990F96B3ba422eA3EF49D5dAa99",
         "chain_id": 137
@@ -462,6 +472,7 @@
       "theme": {
         "primary": "#009393"
       },
+      "hidden": true,
       "profile": {
         "address": "0x898C2737f2Cb52622711A89D85A1D5E0B881BDeA",
         "chain_id": 137
@@ -515,11 +526,14 @@
   },
   {
     "community": {
-      "name": "Breadchain Community Token",
-      "description": "BREAD is a digital community token and solidarity primitive developed by Breadchain Cooperative that generates yield for post-capitalist organizations",
-      "url": "https://breadchain.xyz/",
+      "name": "Bread Cooperative",
+      "description": "Financial tools today. Solidarity forever.",
+      "url": "https://bread.coop",
       "alias": "bread",
-      "logo": "https://assets.citizenwallet.xyz/wallet-config/_images/bread.svg",
+      "logo": "https://assets.citizenwallet.xyz/wallet-config/_images/bread2.png",
+      "theme": {
+        "primary": "#ea6023"
+      },
       "profile": {
         "address": "0x6b3a1f4277391526413F583c23D5B9EF4d2fE986",
         "chain_id": 100
@@ -536,7 +550,7 @@
     "tokens": {
       "100:0xa555d5344f6fb6c65da19e403cb4c1ec4a1a5ee3": {
         "standard": "erc20",
-        "name": "Breadchain Community Token",
+        "name": "Bread Cooperative Community Token",
         "address": "0xa555d5344f6fb6c65da19e403cb4c1ec4a1a5ee3",
         "symbol": "BREAD",
         "decimals": 18,
@@ -578,42 +592,43 @@
     "plugins": [
       {
         "name": "Market",
-        "icon": "https://assets.citizenwallet.xyz/wallet-config/_images/bread.svg",
+        "icon": "https://assets.citizenwallet.xyz/wallet-config/_images/bread2.png",
         "url": "https://marketplace.citizenwallet.xyz/bread",
         "launch_mode": "webview",
-        "signature": true
+        "signature": true,
+        "featured": true
       },
       {
         "name": "Breadcon 2025 Faucet",
-        "icon": "https://assets.citizenwallet.xyz/wallet-config/_images/bread.svg",
+        "icon": "https://assets.citizenwallet.xyz/wallet-config/_images/bread2.png",
         "url": "https://faucet.citizenwallet.xyz/breadcon2025",
         "launch_mode": "webview",
         "signature": true,
         "hidden": true
       },
       {
-          "name": "Japan Demo",
-          "icon": "https://assets.citizenwallet.xyz/wallet-config/_images/bread.svg",
-          "url": "https://hackatsuonvoting.vercel.app",
-          "launch_mode": "webview",
-          "signature": true,
-          "hidden": true
+        "name": "Japan Demo",
+        "icon": "https://assets.citizenwallet.xyz/wallet-config/_images/bread2.png",
+        "url": "https://hackatsuonvoting.vercel.app",
+        "launch_mode": "webview",
+        "signature": true,
+        "hidden": true
       },
       {
-          "name": "Japan Demo",
-          "icon": "https://assets.citizenwallet.xyz/wallet-config/_images/bread.svg",
-          "url": "https://grow-kesennuma.vercel.app",
-          "launch_mode": "webview",
-          "signature": true,
-          "hidden": true
+        "name": "Japan Demo",
+        "icon": "https://assets.citizenwallet.xyz/wallet-config/_images/bread2.png",
+        "url": "https://grow-kesennuma.vercel.app",
+        "launch_mode": "webview",
+        "signature": true,
+        "hidden": true
       },
       {
-          "name": "Mutual Vend",
-          "icon": "https://assets.citizenwallet.xyz/wallet-config/_images/bread.svg",
-          "url": "https://mutual-vend.com",
-          "launch_mode": "webview",
-          "signature": true,
-          "hidden": true
+        "name": "Mutual Vend",
+        "icon": "https://assets.citizenwallet.xyz/wallet-config/_images/bread2.png",
+        "url": "https://mutual-vend.com",
+        "launch_mode": "webview",
+        "signature": true,
+        "hidden": true
       }
     ],
     "config_location": "https://config.internal.citizenwallet.xyz/v4/bread.citizenwallet.xyz.json",
@@ -714,6 +729,7 @@
       "theme": {
         "primary": "#ff4c02"
       },
+      "hidden": true,
       "profile": {
         "address": "0x13Dd4B3cD2f2Be3eb41cD0C3E2ce9F8d8C93A451",
         "chain_id": 8453
@@ -951,7 +967,8 @@
         "icon": "https://assets.citizenwallet.xyz/wallet-config/_images/myrt.png",
         "url": "https://marketplace.citizenwallet.xyz/seldesalm",
         "launch_mode": "webview",
-        "signature": true
+        "signature": true,
+        "featured": true
       }
     ],
     "config_location": "https://seldesalm.citizenwallet.xyz/config/community.json",

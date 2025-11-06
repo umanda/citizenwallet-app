@@ -1866,8 +1866,12 @@ class WalletLogic extends WidgetsBindingObserver {
       final url = communityConfig.community.walletUrl(deepLinkURL);
 
       if (onlyHex != null && onlyHex) {
-        _state.updateReceiveQR(
-            '$url?sendto=${_wallet.account.hexEip55}@${communityConfig.community.alias}');
+        // walletUrl returns format like: https://app.citizenwallet.xyz/#/?alias=...
+        // So we need to append with & since there's already a ? in the fragment
+        final separator = url.contains('?') ? '&' : '?';
+        final params =
+            'sendto=${_wallet.account.hexEip55}@${communityConfig.community.alias}';
+        _state.updateReceiveQR('$url$separator$params');
         return;
       }
 
@@ -1885,7 +1889,8 @@ class WalletLogic extends WidgetsBindingObserver {
       }
 
       if (_messageController.value.text.isNotEmpty) {
-        params += '&description=${_messageController.value.text}';
+        params +=
+            '&description=${Uri.encodeComponent(_messageController.value.text)}';
       }
 
       // Add tipTo parameter if it exists in the state
@@ -1894,7 +1899,11 @@ class WalletLogic extends WidgetsBindingObserver {
         params += '&tipTo=$tipTo';
       }
 
-      _state.updateReceiveQR('$url&$params');
+      // Check if URL already has query parameters in the fragment
+      // walletUrl returns format like: https://app.citizenwallet.xyz/#/?alias=...
+      // So we need to append with & since there's already a ? in the fragment
+      final separator = url.contains('?') ? '&' : '?';
+      _state.updateReceiveQR('$url$separator$params');
       return;
     } catch (_) {}
 
