@@ -159,7 +159,8 @@
         "icon": "https://assets.citizenwallet.xyz/wallet-config/_images/wallet.pay.brussels.png",
         "url": "https://checkout.pay.brussels/topup",
         "action": "topup",
-        "signature": true
+        "signature": true,
+        "featured": true
       }
     ],
     "config_location": "https://wallet.pay.brussels/config/community.json",
@@ -306,11 +307,12 @@
     },
     "plugins": [
       {
-        "name": "Merchants Map",
+        "name": "Map",
         "icon": "https://assets.citizenwallet.xyz/wallet-config/_images/sfluv.svg",
         "url": "https://app.sfluv.org/map",
         "launch_mode": "webview",
-        "featured": true
+        "featured": true,
+        "signature": true
       },
       {
         "name": "About",
@@ -529,6 +531,9 @@
       "url": "https://bread.coop",
       "alias": "bread",
       "logo": "https://assets.citizenwallet.xyz/wallet-config/_images/bread2.png",
+      "theme": {
+        "primary": "#ea6023"
+      },
       "profile": {
         "address": "0x6b3a1f4277391526413F583c23D5B9EF4d2fE986",
         "chain_id": 100
@@ -590,7 +595,8 @@
         "icon": "https://assets.citizenwallet.xyz/wallet-config/_images/bread2.png",
         "url": "https://marketplace.citizenwallet.xyz/bread",
         "launch_mode": "webview",
-        "signature": true
+        "signature": true,
+        "featured": true
       },
       {
         "name": "Breadcon 2025 Faucet",
@@ -961,7 +967,8 @@
         "icon": "https://assets.citizenwallet.xyz/wallet-config/_images/myrt.png",
         "url": "https://marketplace.citizenwallet.xyz/seldesalm",
         "launch_mode": "webview",
-        "signature": true
+        "signature": true,
+        "featured": true
       }
     ],
     "config_location": "https://seldesalm.citizenwallet.xyz/config/community.json",
