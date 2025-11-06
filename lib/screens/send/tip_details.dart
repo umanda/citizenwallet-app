@@ -67,6 +67,10 @@ class _TipDetailsScreenState extends State<TipDetailsScreen> {
     super.initState();
     _sendTransaction = widget.sendTransaction ?? SendTransaction();
 
+    // Clear amount controller when tip screen initializes
+    // to ensure hasAmount state is reset
+    widget.walletLogic.clearAmountController();
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final walletLogic = widget.walletLogic;
       final tipTo = context.read<WalletState>().tipTo;
@@ -95,6 +99,8 @@ class _TipDetailsScreenState extends State<TipDetailsScreen> {
     if (tipTo != null) {
       widget.walletLogic.setHasTip(true);
       widget.walletLogic.setHasAddress(true);
+      // Reset amount state since tip screen starts with empty amount
+      widget.walletLogic.updateAmount(unlimited: widget.isMinting);
     }
   }
 
